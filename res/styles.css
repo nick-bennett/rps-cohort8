@@ -4,7 +4,19 @@ GridPane {
   -fx-vgap: 5px;
 }
 
+Pane {
+  -fx-background-color: black;
+  -fx-min-width: 400px;
+  -fx-pref-width: 720px;
+  -fx-min-height: 400px;
+  -fx-pref-height: 720px;
+}
+
 Button, ToggleButton {
   -fx-font-weight: bold;
-  -fx-pref-width: 100px;
+  -fx-pref-width: 80px;
+}
+
+Text {
+  -fx-font-weight: bold;
 }
