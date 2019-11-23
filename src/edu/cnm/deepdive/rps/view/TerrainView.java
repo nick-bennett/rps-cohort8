@@ -30,6 +30,7 @@ public class TerrainView extends Canvas {
 
   private static final double MAX_HUE = 360;
 
+  private byte[][] terrain;
   private Color[] breedColors;
   private Arena arena;
   private boolean bound;
@@ -76,6 +77,8 @@ public class TerrainView extends Canvas {
   public void setArena(Arena arena) {
     this.arena = arena;
     int numBreeds = arena.getNumBreeds();
+    int size = arena.getArenaSize();
+    terrain = new byte[size][size];
     breedColors = new Color[numBreeds];
     for (int i = 0; i < numBreeds; i++) {
       breedColors[i] = Color.hsb(i * MAX_HUE / numBreeds, 1, 0.9);
@@ -83,21 +86,22 @@ public class TerrainView extends Canvas {
   }
 
   /**
-   * Renders all of the cells returned by {@link Arena#getTerrain()}. Each cell is rendered as an
-   * oval (a circle if the displayed cells are square), filled with a color corresponding to the
-   * breed occupying the cell.
+   * Renders all of the cells copied from {@link Arena#copyTerrain(byte[][])}. Each cell is rendered
+   * as an oval (a circle if the displayed cells are square), filled with a color corresponding to
+   * the breed occupying the cell.
    */
   public void draw() {
-    if (arena != null) {
+    if (terrain != null) {
       GraphicsContext context = getGraphicsContext2D();
-      byte[][] terrain = arena.getTerrain();
+      arena.copyTerrain(terrain);
       double cellWidth = getWidth() / terrain[0].length;
       double cellHeight = getHeight() / terrain.length;
       context.clearRect(0, 0, getWidth(), getHeight());
       for (int row = 0; row < terrain.length; row++) {
+        double cellTop = row * cellHeight;
         for (int col = 0; col < terrain[row].length; col++) {
           context.setFill(breedColors[terrain[row][col]]);
-          context.fillOval(col * cellWidth, row * cellHeight, cellWidth, cellHeight);
+          context.fillOval(col * cellWidth, cellTop, cellWidth, cellHeight);
         }
       }
     }

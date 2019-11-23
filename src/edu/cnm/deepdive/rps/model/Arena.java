@@ -119,18 +119,16 @@ public class Arena {
   }
 
   /**
-   * Constructs and returns a safe copy of the terrain of this {@code Arena}. The terrain consists
-   * of a 2-dimensional array of {@code byte} values, where each distinct byte value corresponds to
-   * a breed.
+   * Copies the terrain contents to a 2-dimensional destination array. The destination array must be
+   * fully allocated, and must have at least as many rows and columns as the terrain, or an
+   * exception will be thrown.
    *
-   * @return square array of cells.
+   * @param dest square array of cells to receive a copy of the terrain.
    */
-  public byte[][] getTerrain() {
-    byte[][] safeCopy = new byte[arenaSize][];
+  public void copyTerrain(byte[][] dest) {
     for (int row = 0; row < arenaSize; row++) {
-      safeCopy[row] = Arrays.copyOf(terrain[row], arenaSize);
+      System.arraycopy(terrain[row], 0, dest[row], 0, terrain[row].length);
     }
-    return safeCopy;
   }
 
   /**
@@ -140,6 +138,13 @@ public class Arena {
    */
   public byte getNumBreeds() {
     return numBreeds;
+  }
+
+  /**
+   * Returns the height and width of the (square) terrain.
+   */
+  public int getArenaSize() {
+    return arenaSize;
   }
 
   /**
